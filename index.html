@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digimon Search</title>
+  <style>
+    body {
+      background-image: url('https://images.alphacoders.com/799/799578.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    #play-button {
+      background-image: url('https://static.wikia.nocookie.net/digimon/images/3/37/AD-Digivice.png/revision/latest?cb=20100619154118&path-prefix=es');
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 100px;
+      height: 100px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Digimon Search</h1>
+
+  <form id="search-form">
+    <label for="search-input">Search for a Digimon:</label>
+    <input type="text" id="search-input" name="search-input">
+    <button type="submit">Search</button>
+  </form>
+
+  <div id="digimon-data"></div>
+
+  <script>
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const digimonName = searchInput.value.trim().toLowerCase();
+
+      fetch(`https://digimon-api.vercel.app/api/digimon/name/${digimonName}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Digimon not found');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Render Digimon data
+          const digimonData = document.getElementById('digimon-data');
+          digimonData.innerHTML = `
+            <h2>${data[0].name}</h2>
+            <img src="${data[0].img}" alt="${data[0].name}">
+            <p>${data[0].level}</p>
+            <p>${data[0].type}</p>
+            <audio id="digimon-audio" src="${data[0].sound}" loop></audio>
+            <button id="play-button"></button>
+          `;
+
+          // Play Digimon song in loop when play button is clicked
+          const playButton = document.getElementById('play-button');
+          const digimonAudio = document.getElementById('digimon-audio');
+          playButton.addEventListener('click', () => {
+            digimonAudio.play();
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          alert('Digimon not found');
+        });
+    });
+  </script>
+</body>
+</html>
