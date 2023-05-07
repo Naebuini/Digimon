@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Digimon Lista</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body style="background-image: url('https://w.forfun.com/fetch/6b/6bd7d423b68cb723a8d2a105108d3c1b.jpeg');">
+    <div class="container">
+      <h1>Bienvenido Lista Digimon</h1>
+      <div class="search-container">
+        <input type="text" placeholder="Buscar Digimon" id="search-input">
+        <button type="button" onclick="searchDigimon()">Buscar</button>
+      </div>
+      <div class="select-container">
+        <label for="level-select">Filtrar por nivel:</label>
+        <select id="level-select" onchange="filterByLevel()">
+          <option value="">Todos</option>
+          <option value="In Training">In Training</option>
+          <option value="Rookie">Rookie</option>
+          <option value="Champion">Champion</option>
+          <option value="Ultimate">Ultimate</option>
+          <option value="Mega">Mega</option>
+        </select>
+      </div>
+      <div id="digimon-container"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
+
